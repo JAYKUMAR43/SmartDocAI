@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import FileUpload from "../../components/FileUpload";
-import { compressVideo } from "../../services/api";
-
-const API_URL = "http://127.0.0.1:8000";
+import { compressVideo, API_URL } from "../../services/api";
 
 export default function CompressVideoPage() {
     const [downloadUrl, setDownloadUrl] = useState<string | null>(null);

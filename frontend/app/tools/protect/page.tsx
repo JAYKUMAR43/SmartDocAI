@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import FileUpload from "../../components/FileUpload";
-import { protectDocument } from "../../services/api";
-
-const API_URL = "http://localhost:8000"; // Should utilize env var in real app
+import { protectDocument, API_URL } from "../../services/api";
 
 export default function ProtectPage() {
     const [fileId, setFileId] = useState<string | null>(null);

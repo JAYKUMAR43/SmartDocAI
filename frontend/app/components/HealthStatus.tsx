@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Wifi, WifiOff, AlertTriangle } from "lucide-react";
 
+import { API_URL } from "../services/api";
+
 export default function HealthStatus() {
     const [isOnline, setIsOnline] = useState<boolean | null>(null);
 
     useEffect(() => {
         const checkHealth = async () => {
             try {
-                const res = await fetch("http://127.0.0.1:8000/health");
+                const res = await fetch(`${API_URL}/health`);
                 setIsOnline(res.ok);
             } catch (e) {
                 setIsOnline(false);
