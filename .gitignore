@@ -1,0 +1,19 @@
+# Environment variables
+.env
+backend/.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# FFmpeg / binaries
+ffmpeg_temp/
+backend/bin/*.exe
+
+# OS
+.DS_Store
+Thumbs.db
