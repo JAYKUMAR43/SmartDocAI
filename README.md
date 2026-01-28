@@ -3,7 +3,6 @@
 SmartDocAI is an AI-powered document processing platform that helps users upload, analyze, edit, and manage documents intelligently.  
 It is designed to automate document workflows using modern AI techniques and a scalable full-stack architecture.
 
----
 
 ## 🚀 Features
 
@@ -14,8 +13,4 @@ It is designed to automate document workflows using modern AI techniques and a s
 - 🗂️ Clean frontend–backend separation
 - ⚙️ One-click build and run scripts
 - 🎯 Suitable for real-world and hackathon use cases
-
----
-
-## 🏗️ Project Structure
 
