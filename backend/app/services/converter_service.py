@@ -1,13 +1,29 @@
 import os
+import sys
 import uuid
 import shutil
-import comtypes.client
+import subprocess
+import platform
 from PIL import Image
 from app.core import config
 from pdf2docx import Converter as PDF2DocxConverter
-from docx2pdf import convert as docx2pdf_convert
 import fitz # PyMuPDF
 from app.services import pdf_service, ai_service
+
+# Platform detection
+IS_WINDOWS = platform.system() == "Windows"
+
+# Conditional imports for Windows-only libraries
+if IS_WINDOWS:
+    try:
+        import comtypes.client
+        from docx2pdf import convert as docx2pdf_convert
+        WINDOWS_COM_AVAILABLE = True
+    except ImportError:
+        WINDOWS_COM_AVAILABLE = False
+else:
+    WINDOWS_COM_AVAILABLE = False
+
 
 def pdf_to_docx(input_path: str, output_path: str):
     """Converts PDF to DOCX using pdf2docx."""
@@ -19,60 +35,181 @@ def pdf_to_docx(input_path: str, output_path: str):
     except Exception as e:
         raise Exception(f"PDF to DOCX failed: {str(e)}")
 
-def docx_to_pdf(input_path: str, output_path: str):
-    """Converts DOCX to PDF using docx2pdf (requires MS Word on Windows)."""
+def docx_to_pdf_libreoffice(input_path: str, output_path: str):
+    """Converts DOCX to PDF using LibreOffice (cross-platform)."""
     try:
-        docx2pdf_convert(input_path, output_path)
+        # LibreOffice headless conversion
+        output_dir = os.path.dirname(output_path)
+        result = subprocess.run(
+            ['libreoffice', '--headless', '--convert-to', 'pdf', '--outdir', output_dir, input_path],
+            capture_output=True,
+            text=True,
+            timeout=60
+        )
+        if result.returncode != 0:
+            raise Exception(f"LibreOffice conversion failed: {result.stderr}")
+        
+        # LibreOffice creates file with same name but .pdf extension
+        base_name = os.path.splitext(os.path.basename(input_path))[0]
+        generated_pdf = os.path.join(output_dir, f"{base_name}.pdf")
+        
+        if os.path.exists(generated_pdf) and generated_pdf != output_path:
+            shutil.move(generated_pdf, output_path)
+        
         return True
     except Exception as e:
         raise Exception(f"DOCX to PDF failed: {str(e)}")
 
-def excel_to_pdf(input_path: str, output_path: str):
-    """Converts Excel to PDF using Excel COM automation."""
+
+def docx_to_pdf(input_path: str, output_path: str):
+    """Converts DOCX to PDF (platform-aware)."""
+    if WINDOWS_COM_AVAILABLE:
+        try:
+            docx2pdf_convert(input_path, output_path)
+            return True
+        except Exception as e:
+            raise Exception(f"DOCX to PDF failed: {str(e)}")
+    else:
+        return docx_to_pdf_libreoffice(input_path, output_path)
+
+def excel_to_pdf_libreoffice(input_path: str, output_path: str):
+    """Converts Excel to PDF using LibreOffice (cross-platform)."""
     try:
-        excel = comtypes.client.CreateObject("Excel.Application")
-        excel.Visible = False
-        wb = excel.Workbooks.Open(os.path.abspath(input_path))
-        # 0 = xlTypePDF
-        wb.ExportAsFixedFormat(0, os.path.abspath(output_path))
-        wb.Close()
-        excel.Quit()
+        output_dir = os.path.dirname(output_path)
+        result = subprocess.run(
+            ['libreoffice', '--headless', '--convert-to', 'pdf', '--outdir', output_dir, input_path],
+            capture_output=True,
+            text=True,
+            timeout=60
+        )
+        if result.returncode != 0:
+            raise Exception(f"LibreOffice conversion failed: {result.stderr}")
+        
+        base_name = os.path.splitext(os.path.basename(input_path))[0]
+        generated_pdf = os.path.join(output_dir, f"{base_name}.pdf")
+        
+        if os.path.exists(generated_pdf) and generated_pdf != output_path:
+            shutil.move(generated_pdf, output_path)
+        
         return True
     except Exception as e:
         raise Exception(f"Excel to PDF failed: {str(e)}")
 
-def ppt_to_pdf(input_path: str, output_path: str):
-    """Converts PowerPoint to PDF using PowerPoint COM automation."""
+
+def excel_to_pdf(input_path: str, output_path: str):
+    """Converts Excel to PDF (platform-aware)."""
+    if WINDOWS_COM_AVAILABLE:
+        try:
+            excel = comtypes.client.CreateObject("Excel.Application")
+            excel.Visible = False
+            wb = excel.Workbooks.Open(os.path.abspath(input_path))
+            # 0 = xlTypePDF
+            wb.ExportAsFixedFormat(0, os.path.abspath(output_path))
+            wb.Close()
+            excel.Quit()
+            return True
+        except Exception as e:
+            raise Exception(f"Excel to PDF failed: {str(e)}")
+    else:
+        return excel_to_pdf_libreoffice(input_path, output_path)
+
+def ppt_to_pdf_libreoffice(input_path: str, output_path: str):
+    """Converts PowerPoint to PDF using LibreOffice (cross-platform)."""
     try:
-        powerpoint = comtypes.client.CreateObject("Powerpoint.Application")
-        # 32 = ppFixedFormatTypePDF
-        pres = powerpoint.Presentations.Open(os.path.abspath(input_path), WithWindow=False)
-        pres.ExportAsFixedFormat(os.path.abspath(output_path), 32)
-        pres.Close()
-        powerpoint.Quit()
+        output_dir = os.path.dirname(output_path)
+        result = subprocess.run(
+            ['libreoffice', '--headless', '--convert-to', 'pdf', '--outdir', output_dir, input_path],
+            capture_output=True,
+            text=True,
+            timeout=60
+        )
+        if result.returncode != 0:
+            raise Exception(f"LibreOffice conversion failed: {result.stderr}")
+        
+        base_name = os.path.splitext(os.path.basename(input_path))[0]
+        generated_pdf = os.path.join(output_dir, f"{base_name}.pdf")
+        
+        if os.path.exists(generated_pdf) and generated_pdf != output_path:
+            shutil.move(generated_pdf, output_path)
+        
         return True
     except Exception as e:
         raise Exception(f"PPT to PDF failed: {str(e)}")
 
-def ppt_to_images(input_path: str, output_dir: str, format: str = "PNG"):
-    """Converts PowerPoint slides to images."""
+
+def ppt_to_pdf(input_path: str, output_path: str):
+    """Converts PowerPoint to PDF (platform-aware)."""
+    if WINDOWS_COM_AVAILABLE:
+        try:
+            powerpoint = comtypes.client.CreateObject("Powerpoint.Application")
+            # 32 = ppFixedFormatTypePDF
+            pres = powerpoint.Presentations.Open(os.path.abspath(input_path), WithWindow=False)
+            pres.ExportAsFixedFormat(os.path.abspath(output_path), 32)
+            pres.Close()
+            powerpoint.Quit()
+            return True
+        except Exception as e:
+            raise Exception(f"PPT to PDF failed: {str(e)}")
+    else:
+        return ppt_to_pdf_libreoffice(input_path, output_path)
+
+def ppt_to_images_libreoffice(input_path: str, output_dir: str, format: str = "PNG"):
+    """Converts PowerPoint slides to images using LibreOffice + PyMuPDF."""
     try:
-        powerpoint = comtypes.client.CreateObject("Powerpoint.Application")
-        pres = powerpoint.Presentations.Open(os.path.abspath(input_path), WithWindow=False)
+        # First convert PPT to PDF using LibreOffice
+        temp_pdf = os.path.join(output_dir, f"temp_{uuid.uuid4()}.pdf")
+        ppt_to_pdf_libreoffice(input_path, temp_pdf)
         
+        # Then convert PDF pages to images using PyMuPDF
+        doc = fitz.open(temp_pdf)
         generated_files = []
-        for i, slide in enumerate(pres.Slides):
+        
+        for i, page in enumerate(doc):
+            pix = page.get_pixmap(dpi=150)
             img_path = os.path.join(output_dir, f"slide_{i+1}.{format.lower()}")
-            # 17 = ppSaveAsPNG, 18 = ppSaveAsJPG
-            save_type = 17 if format.upper() == "PNG" else 18
-            slide.Export(os.path.abspath(img_path), format.upper())
-            generated_files.append(img_path)
             
-        pres.Close()
-        powerpoint.Quit()
+            if format.upper() == "PNG":
+                pix.save(img_path)
+            else:
+                # Convert to JPG
+                img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+                img.save(img_path, "JPEG")
+            
+            generated_files.append(img_path)
+        
+        doc.close()
+        
+        # Clean up temp PDF
+        if os.path.exists(temp_pdf):
+            os.remove(temp_pdf)
+        
         return generated_files
     except Exception as e:
         raise Exception(f"PPT to Images failed: {str(e)}")
+
+
+def ppt_to_images(input_path: str, output_dir: str, format: str = "PNG"):
+    """Converts PowerPoint slides to images (platform-aware)."""
+    if WINDOWS_COM_AVAILABLE:
+        try:
+            powerpoint = comtypes.client.CreateObject("Powerpoint.Application")
+            pres = powerpoint.Presentations.Open(os.path.abspath(input_path), WithWindow=False)
+            
+            generated_files = []
+            for i, slide in enumerate(pres.Slides):
+                img_path = os.path.join(output_dir, f"slide_{i+1}.{format.lower()}")
+                # 17 = ppSaveAsPNG, 18 = ppSaveAsJPG
+                save_type = 17 if format.upper() == "PNG" else 18
+                slide.Export(os.path.abspath(img_path), format.upper())
+                generated_files.append(img_path)
+                
+            pres.Close()
+            powerpoint.Quit()
+            return generated_files
+        except Exception as e:
+            raise Exception(f"PPT to Images failed: {str(e)}")
+    else:
+        return ppt_to_images_libreoffice(input_path, output_dir, format)
 
 def images_to_pdf(image_paths: list[str], output_path: str):
     """Converts a list of images to a single PDF."""

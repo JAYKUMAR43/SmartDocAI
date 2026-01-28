@@ -13,7 +13,10 @@ pytest
 httpx
 pdf2docx
 opencv-python-headless
-docx2pdf
-comtypes
-rembg
 numpy
+
+# Windows-only dependencies (optional, for local development on Windows)
+# These will be skipped on Linux/Docker environments
+# docx2pdf
+# comtypes
+rembg
