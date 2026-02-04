@@ -4,7 +4,10 @@ from app.core import config
 import os
 import uuid
 import shutil
-import comtypes
+try:
+    import comtypes
+except ImportError:
+    comtypes = None
 
 router = APIRouter(
     prefix="/converter",
@@ -26,10 +29,12 @@ async def convert(
         session_id = str(uuid.uuid4())
     
     # Ensure COM is initialized for this thread (Crucial for Excel/PPT)
-    try:
-        comtypes.CoInitialize()
-    except:
-        pass
+    # Ensure COM is initialized for this thread (Crucial for Excel/PPT on Windows)
+    if comtypes:
+        try:
+            comtypes.CoInitialize()
+        except:
+            pass
 
     results = []
     
@@ -74,7 +79,8 @@ async def convert(
                 os.remove(input_path)
 
     # CoUninitialize is good practice but optional here
-    # comtypes.CoUninitialize()
+    # if comtypes:
+    #     comtypes.CoUninitialize()
 
     return {
         "message": "Conversion jobs completed",
