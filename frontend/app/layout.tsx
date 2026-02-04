@@ -18,7 +18,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "SmartDoc AI | The Ultimate AI-Powered Document Platform",
+  title: "SmartDoc AI | VERIFIED REMOVAL | The Ultimate AI-Powered Document Platform",
   description: "Merge, Split, Compress, Summarize and Edit documents with the power of AI. Professional tools for professional work.",
 };
 
