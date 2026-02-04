@@ -1,7 +1,8 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.responses import FileResponse
 from app.core.config import settings
 from app.services.media_service import compress_image, compress_video
+from app.services import cleanup_service
 import os
 import uuid
 import shutil
@@ -58,10 +59,14 @@ async def compress_video_endpoint(file: UploadFile = File(...), crf: int = 28, t
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/download/{session_id}/{filename}")
-async def download_media(session_id: str, filename: str):
-    """Downloads a processed media file."""
+async def download_media(session_id: str, filename: str, background_tasks: BackgroundTasks):
+    """Downloads a processed media file and then deletes the session data."""
     file_path = os.path.join(UPLOAD_DIR, session_id, filename)
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="File not found")
+    
+    # Schedule deletion
+    session_dir = os.path.join(UPLOAD_DIR, session_id)
+    background_tasks.add_task(cleanup_service.delete_path, session_dir)
         
     return FileResponse(file_path, filename=filename)
