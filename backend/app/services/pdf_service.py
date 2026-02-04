@@ -105,3 +105,16 @@ def compress_pdf(file_path: str, output_path: str):
         return True
     except Exception as e:
         raise Exception(f"PDF compression failed: {str(e)}")
+
+def protect_pdf(file_path: str, output_path: str, password: str):
+    """
+    Encrypts a PDF with a password.
+    """
+    try:
+        doc = fitz.open(file_path)
+        # Save with AES-256 encryption
+        doc.save(output_path, encryption=fitz.PDF_ENCRYPT_AES_256, owner_pw=password, user_pw=password)
+        doc.close()
+        return True
+    except Exception as e:
+        raise Exception(f"PDF protection failed: {str(e)}")

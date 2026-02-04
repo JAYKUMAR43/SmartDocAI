@@ -48,7 +48,55 @@ async def upload_file(background_tasks: BackgroundTasks, file: UploadFile = File
         "path": file_path,
         "type": file.content_type
     }
-# ... (summarize, protect endpoints remain same) ...
+
+@router.post("/summarize/{file_id}")
+async def summarize_document(file_id: str):
+    """Summarizes the uploaded document using AI."""
+    session_dir = os.path.join(UPLOAD_DIR, file_id)
+    if not os.path.exists(session_dir):
+        raise HTTPException(status_code=404, detail="Session not found")
+        
+    files = [f for f in os.listdir(session_dir) if f.startswith("original")]
+    if not files:
+        raise HTTPException(status_code=404, detail="File not found")
+    
+    file_path = os.path.join(session_dir, files[0])
+    
+    if not file_path.endswith(".pdf"):
+         raise HTTPException(status_code=400, detail="Only PDFs supported for summarization")
+        
+    text = extract_text_from_pdf(file_path)
+    if not text:
+        raise HTTPException(status_code=400, detail="Could not extract text")
+    
+    summary = summarize_text(text)
+    return {"summary": summary}
+
+@router.post("/protect/{file_id}")
+async def protect_document_endpoint(file_id: str, password: str = Body(..., embed=True)):
+    """Protect a PDF with a password."""
+    session_dir = os.path.join(UPLOAD_DIR, file_id)
+    if not os.path.exists(session_dir):
+        raise HTTPException(status_code=404, detail="Session not found")
+        
+    files = [f for f in os.listdir(session_dir) if f.startswith("original")]
+    if not files:
+        raise HTTPException(status_code=404, detail="File not found")
+    
+    file_path = os.path.join(session_dir, files[0])
+    output_filename = "protected.pdf"
+    output_path = os.path.join(session_dir, output_filename)
+    
+    try:
+        from app.services.pdf_service import protect_pdf
+        protect_pdf(file_path, output_path, password)
+        
+        return {
+            "message": "PDF protected successfully",
+            "download_url": f"/documents/download/{file_id}/{output_filename}"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 from fastapi import BackgroundTasks
 from app.services import cleanup_service
