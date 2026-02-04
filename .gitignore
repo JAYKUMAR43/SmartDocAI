@@ -17,3 +17,6 @@ backend/bin/*.exe
 # OS
 .DS_Store
 Thumbs.db
+
+# Storage
+backend/storage/
