@@ -49,14 +49,14 @@ export default function HealthStatus() {
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="fixed bottom-8 left-8 z-[200]"
+                    className="fixed bottom-4 md:bottom-8 left-4 md:left-8 z-[200]"
                 >
-                    <div className="flex items-center gap-3 px-4 py-2 glass rounded-full shadow-lg border-none">
+                    <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-1.5 md:py-2 glass rounded-full shadow-lg border-none">
                         <div className="relative">
-                            <Wifi className="w-4 h-4 text-emerald-500" />
+                            <Wifi className="w-3.5 h-3.5 md:w-4 md:h-4 text-emerald-500" />
                             <div className="absolute inset-0 bg-emerald-500 blur-sm rounded-full animate-pulse opacity-50" />
                         </div>
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600">Secure • Online</span>
+                        <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600">Secure • Online</span>
                     </div>
                 </motion.div>
             )}
