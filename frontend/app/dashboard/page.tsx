@@ -134,17 +134,17 @@ export default function DashboardPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] dark:bg-[#020617] pt-24 pb-20">
+        <div className="min-h-screen bg-[#f8fafc] dark:bg-[#020617] pt-16 md:pt-24 pb-20">
             <HealthStatus />
 
-            <main className="max-w-7xl mx-auto px-6 lg:px-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header Section */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16">
                     <div>
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-xs mb-4"
+                            className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px] md:text-xs mb-4"
                         >
                             <Zap className="w-4 h-4" />
                             <span>Professional Workspace</span>
@@ -152,7 +152,7 @@ export default function DashboardPage() {
                         <motion.h1
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-5xl font-black text-foreground tracking-tight"
+                            className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground tracking-tight"
                         >
                             Every tool you need.<br />
                             <span className="gradient-text tracking-tighter">— Optimized.</span>
@@ -162,22 +162,22 @@ export default function DashboardPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3 }}
-                        className="max-w-md text-secondary font-medium"
+                        className="max-w-md text-secondary font-medium text-sm md:text-base"
                     >
                         Welcome back! Select a specialized tool below to start processing your documents with next-gen AI precision.
                     </motion.p>
                 </div>
 
                 {/* Categories */}
-                <div className="space-y-24">
+                <div className="space-y-16 md:space-y-24">
                     {categories.map((category, catIdx) => (
                         <div key={category.name}>
-                            <div className="flex items-center justify-between mb-10 border-b border-glass-border pb-6">
+                            <div className="flex items-center justify-between mb-6 md:mb-10 border-b border-glass-border pb-4 md:pb-6">
                                 <div>
-                                    <h2 className="text-2xl font-black text-foreground mb-1">
+                                    <h2 className="text-xl md:text-2xl font-black text-foreground mb-1">
                                         {category.name}
                                     </h2>
-                                    <p className="text-secondary font-medium text-sm">
+                                    <p className="text-secondary font-medium text-xs md:text-sm">
                                         {category.description}
                                     </p>
                                 </div>

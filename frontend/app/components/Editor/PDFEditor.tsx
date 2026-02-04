@@ -874,39 +874,40 @@ export default function PDFEditor() {
             {/* Top Tier: Tabs and Brand */}
             <div className="h-10 bg-[#2d3e50] flex items-center px-4 justify-between z-30 shrink-0">
                 <div className="flex items-center gap-1">
-                    <div className="bg-white p-1 rounded-md mr-2">
-                        <svg className="w-5 h-5 text-[#2d3e50]" fill="currentColor" viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,9V3.5L18.5,9H13Z" /></svg>
+                    <div className="bg-white p-1 rounded-md mr-1 md:mr-2">
+                        <svg className="w-4 h-4 md:w-5 md:h-5 text-[#2d3e50]" fill="currentColor" viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,9V3.5L18.5,9H13Z" /></svg>
                     </div>
-                    <span className="text-white font-black text-lg tracking-tight">SmartDoc AI</span>
+                    <span className="text-white font-black text-sm md:text-lg tracking-tight truncate max-w-[100px] md:max-w-none">SmartDoc AI</span>
 
-                    <div className="flex ml-8 h-10">
+                    <div className="flex ml-4 md:ml-8 h-10">
                         <button
                             onClick={() => setActiveTab('editor')}
-                            className={`px-4 text-[13px] font-bold transition-colors ${activeTab === 'editor' ? 'bg-[#f1f2f3] text-gray-800 rounded-t-lg' : 'text-gray-300 hover:text-white'}`}
+                            className={`px-2 md:px-4 text-[11px] md:text-[13px] font-bold transition-colors ${activeTab === 'editor' ? 'bg-[#f1f2f3] text-gray-800 rounded-t-lg' : 'text-gray-300 hover:text-white'}`}
                         >
                             Editor
                         </button>
                         <button
                             onClick={() => setActiveTab('organize')}
-                            className={`px-4 text-[13px] font-bold transition-colors ${activeTab === 'organize' ? 'bg-[#f1f2f3] text-gray-800 rounded-t-lg' : 'text-gray-300 hover:text-white'}`}
+                            className={`px-2 md:px-4 text-[11px] md:text-[13px] font-bold transition-colors ${activeTab === 'organize' ? 'bg-[#f1f2f3] text-gray-800 rounded-t-lg' : 'text-gray-300 hover:text-white'}`}
                         >
-                            Organize
+                            <span className="hidden xs:inline">Organize</span>
+                            <span className="xs:hidden">Org</span>
                         </button>
                     </div>
                 </div>
-                <div className="flex items-center gap-4 text-white text-xs font-medium">
-                    <span className="opacity-70">Example.pdf</span>
-                    <div className="h-4 w-[1px] bg-white opacity-20" />
+                <div className="flex items-center gap-2 md:gap-4 text-white text-[10px] md:text-xs font-medium">
+                    <span className="opacity-70 hidden sm:inline">Example.pdf</span>
+                    <div className="h-4 w-[1px] bg-white opacity-20 hidden sm:block" />
                     <button className="hover:underline flex items-center gap-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        Help
+                        <svg className="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span className="hidden xs:inline">Help</span>
                     </button>
                 </div>
             </div>
 
             {/* Middle Tier: Main Toolbar (DocFly Style) */}
-            <header className="h-20 bg-[#f1f2f3] border-b border-gray-300 px-6 flex items-center justify-between z-20 shrink-0">
-                <div className="flex items-center gap-0.5">
+            <header className="h-16 md:h-20 bg-[#f1f2f3] border-b border-gray-300 px-2 md:px-6 flex items-center justify-between z-20 shrink-0 overflow-x-auto no-scrollbar">
+                <div className="flex items-center gap-0.5 min-w-max">
                     {/* Zoom & View */}
                     <div className="flex flex-col items-center mr-6 gap-1">
                         <div className="flex items-center bg-white border border-gray-300 rounded overflow-hidden shadow-sm">
@@ -920,7 +921,7 @@ export default function PDFEditor() {
                         <span className="text-[10px] text-gray-500 font-bold uppercase tracking-tight">Zoom</span>
                     </div>
 
-                    <div className="h-12 w-[1px] bg-gray-300 mx-3" />
+                    <div className="h-12 w-[1px] bg-gray-300 mx-1 md:mx-3" />
 
                     {!isLoaded ? (
                         <div className="flex flex-col items-center">
@@ -1234,9 +1235,9 @@ export default function PDFEditor() {
                 </div>
             )}
 
-            <div className="flex flex-1 overflow-hidden">
-                {/* Thumbnails Sidebar */}
-                <aside className="w-32 bg-[#edeff1] border-r overflow-y-auto p-3 flex flex-col gap-4">
+            <div className="flex flex-1 overflow-hidden relative">
+                {/* Thumbnails Sidebar - Hidden on mobile, toggleable or just smaller */}
+                <aside className="hidden sm:flex w-24 md:w-32 bg-[#edeff1] border-r overflow-y-auto p-2 md:p-3 flex-col gap-4">
                     {pages.map(p => (
                         <div
                             key={p.id}
@@ -1269,25 +1270,25 @@ export default function PDFEditor() {
 
                 {/* Editor Surface */}
                 <main
-                    className={`flex-1 overflow-y-auto p-8 scroll-smooth transition-colors ${isDragging ? 'bg-blue-50' : 'bg-gray-200'}`}
+                    className={`flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth transition-colors ${isDragging ? 'bg-blue-50' : 'bg-gray-200'}`}
                     ref={containerRef}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                 >
-                    <div className="flex flex-col items-center gap-8 max-w-5xl mx-auto h-full">
+                    <div className="flex flex-col items-center gap-4 md:gap-8 max-w-5xl mx-auto h-full">
                         {!isLoaded ? (
                             <div className="flex-1 flex flex-col items-center justify-center -mt-10">
                                 <div
                                     onClick={() => fileInputRef.current?.click()}
-                                    className={`w-full max-w-2xl aspect-[16/9] border-4 border-dashed rounded-3xl flex flex-col items-center justify-center gap-6 cursor-pointer transition-all ${isDragging ? 'border-blue-500 bg-blue-100/50 scale-[1.02]' : 'border-gray-300 bg-white hover:border-blue-400 hover:bg-gray-50 shadow-sm'}`}
+                                    className={`w-full max-w-2xl aspect-[1/1] sm:aspect-[16/9] border-4 border-dashed rounded-3xl flex flex-col items-center justify-center gap-4 md:gap-6 cursor-pointer transition-all ${isDragging ? 'border-blue-500 bg-blue-100/50 scale-[1.02]' : 'border-gray-300 bg-white hover:border-blue-400 hover:bg-gray-50 shadow-sm px-4'}`}
                                 >
-                                    <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center animate-bounce-slow">
-                                        <svg className="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                                    <div className="w-16 h-16 md:w-24 md:h-24 bg-blue-100 rounded-full flex items-center justify-center animate-bounce-slow">
+                                        <svg className="w-8 h-8 md:w-12 md:h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
                                     </div>
                                     <div className="text-center">
-                                        <h3 className="text-2xl font-black text-gray-800">Drop your PDF here</h3>
-                                        <p className="text-gray-500 mt-2 font-medium">or click to browse your computer</p>
+                                        <h3 className="text-xl md:text-2xl font-black text-gray-800">Drop your PDF here</h3>
+                                        <p className="text-sm text-gray-500 mt-2 font-medium">or click to browse</p>
                                     </div>
                                     <div className="flex gap-4 mt-2">
                                         <div className="flex items-center gap-2 text-xs font-bold text-gray-400 bg-gray-100 px-3 py-1 rounded-full"><svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm6-1a1 1 0 11-2 0 1 1 0 012 0z" /></svg> No registration</div>
@@ -1315,10 +1316,10 @@ export default function PDFEditor() {
                                     <div
                                         key={p.id}
                                         id={`page-${p.id}`}
-                                        className="relative shadow-2xl bg-white transition-transform duration-300 origin-top"
+                                        className="relative shadow-2xl bg-white transition-transform duration-300 origin-top max-w-full"
                                         style={{
                                             transform: `scale(${zoom})`,
-                                            marginBottom: `${(p.viewport.height * zoom) - p.viewport.height + 40}px`
+                                            marginBottom: `${((p.viewport.height * zoom) - p.viewport.height) / 2 + 40}px`
                                         }}
                                         onMouseEnter={() => setActivePage(p.id)}
                                     >

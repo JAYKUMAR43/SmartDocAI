@@ -71,9 +71,9 @@ export default function FileUpload({ onUploadComplete, accept }: { onUploadCompl
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
-                className={`relative flex flex-col items-center justify-center w-full min-h-[320px] border-4 border-dashed rounded-[2.5rem] cursor-pointer transition-colors glass shadow-sm overflow-hidden`}
+                className={`relative flex flex-col items-center justify-center w-full min-h-[240px] md:min-h-[320px] border-4 border-dashed rounded-3xl md:rounded-[2.5rem] cursor-pointer transition-colors glass shadow-sm overflow-hidden`}
             >
-                <div className="flex flex-col items-center justify-center p-10 text-center relative z-10 w-full">
+                <div className="flex flex-col items-center justify-center p-6 md:p-10 text-center relative z-10 w-full">
                     <AnimatePresence mode="wait">
                         {uploading ? (
                             <motion.div
@@ -83,13 +83,13 @@ export default function FileUpload({ onUploadComplete, accept }: { onUploadCompl
                                 exit={{ opacity: 0, y: -10 }}
                                 className="flex flex-col items-center"
                             >
-                                <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mb-6">
-                                    <Loader2 className="w-10 h-10 text-primary animate-spin" />
+                                <div className="w-16 h-16 md:w-20 md:h-20 bg-primary/10 rounded-2xl md:rounded-3xl flex items-center justify-center mb-4 md:mb-6">
+                                    <Loader2 className="w-8 h-8 md:w-10 md:h-10 text-primary animate-spin" />
                                 </div>
-                                <h3 className="text-xl font-black text-foreground mb-2 tracking-tight">Processing File...</h3>
-                                <p className="text-sm font-bold text-secondary">Our AI is preparing your document for the next step.</p>
+                                <h3 className="text-lg md:text-xl font-black text-foreground mb-2 tracking-tight">Processing File...</h3>
+                                <p className="text-xs md:text-sm font-bold text-secondary">Our AI is preparing your document for the next step.</p>
 
-                                <div className="w-64 h-1.5 bg-gray-100 dark:bg-zinc-800 rounded-full mt-8 overflow-hidden">
+                                <div className="w-48 md:w-64 h-1.5 bg-gray-100 dark:bg-zinc-800 rounded-full mt-6 md:mt-8 overflow-hidden">
                                     <motion.div
                                         initial={{ x: "-100%" }}
                                         animate={{ x: "100%" }}
@@ -106,17 +106,17 @@ export default function FileUpload({ onUploadComplete, accept }: { onUploadCompl
                                 exit={{ opacity: 0, y: -10 }}
                                 className="flex flex-col items-center"
                             >
-                                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-8 transition-all duration-500 shadow-xl ${dragActive ? 'bg-primary text-white scale-110 rotate-6 shadow-primary/20' : 'bg-primary/10 text-primary'
+                                <div className={`w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl flex items-center justify-center mb-6 md:mb-8 transition-all duration-500 shadow-xl ${dragActive ? 'bg-primary text-white scale-110 rotate-6 shadow-primary/20' : 'bg-primary/10 text-primary'
                                     }`}>
-                                    <Upload className="w-10 h-10" />
+                                    <Upload className="w-8 h-8 md:w-10 md:h-10" />
                                 </div>
 
-                                <h3 className="text-2xl font-black text-foreground mb-4 tracking-tight leading-none">
+                                <h3 className="text-xl md:text-2xl font-black text-foreground mb-3 md:mb-4 tracking-tight leading-none">
                                     <span className="text-primary">Click to upload</span> <br />
-                                    <span className="text-secondary/50 font-medium text-lg">or drag and drop your file here</span>
+                                    <span className="text-secondary/50 font-medium text-base md:text-lg">or drag and drop your file here</span>
                                 </h3>
 
-                                <p className="text-xs font-black text-secondary tracking-widest uppercase opacity-40">
+                                <p className="text-[10px] font-black text-secondary tracking-widest uppercase opacity-40">
                                     PDF, DOCX, ZIP, MP4 (MAX. 50MB)
                                 </p>
                             </motion.div>
@@ -150,24 +150,26 @@ export default function FileUpload({ onUploadComplete, accept }: { onUploadCompl
                         <div className="h-[1px] flex-1 bg-glass-border" />
                     </div>
 
-                    <div className="flex gap-4 justify-center">
+                    <div className="flex flex-wrap gap-4 justify-center">
                         <button
                             onClick={() => handleCloudUpload('Google Drive')}
-                            className="flex items-center gap-3 px-6 py-3 text-sm font-bold text-foreground glass hover:bg-white/10 rounded-2xl transition-all hover:scale-105 active:scale-95 group shadow-sm border-none"
+                            className="flex items-center gap-3 px-4 md:px-6 py-2.5 md:py-3 text-sm font-bold text-foreground glass hover:bg-white/10 rounded-xl md:rounded-2xl transition-all hover:scale-105 active:scale-95 group shadow-sm border-none"
                         >
-                            <div className="w-6 h-6 flex items-center justify-center group-hover:rotate-12 transition-transform">
+                            <div className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center group-hover:rotate-12 transition-transform">
                                 <svg className="w-full h-full" viewBox="0 0 87.3 78"><path d="M6.6 66.85l25.3-43.8 23.2 38.2H9.06c-3.1 0-4.8 1.9-2.46 5.6z" fill="#0066da" /><path d="M23.9 13L0 55.4l8.3 14.5L34.1 27.2c2.4-4 1.1-14.2-10.2-14.2z" fill="#00ac47" /><path d="M87.3 26.5L62 72.15c-3.7 6.3-10.5 5.85-13.6 0l-25.1-45.65z" fill="#ea4335" /><path d="M22.1 21.4l20.3-35.1c2-3.46 6.1-3.46 8.1 0l18.4 35.1H34.4c-8.9 0-11.4 0-12.3 0z" fill="#ffba00" /></svg>
                             </div>
-                            Google Drive
+                            <span className="hidden sm:inline">Google Drive</span>
+                            <span className="sm:hidden">Drive</span>
                         </button>
                         <button
                             onClick={() => handleCloudUpload('Dropbox')}
-                            className="flex items-center gap-3 px-6 py-3 text-sm font-bold text-foreground glass hover:bg-white/10 rounded-2xl transition-all hover:scale-105 active:scale-95 group shadow-sm border-none"
+                            className="flex items-center gap-3 px-4 md:px-6 py-2.5 md:py-3 text-sm font-bold text-foreground glass hover:bg-white/10 rounded-xl md:rounded-2xl transition-all hover:scale-105 active:scale-95 group shadow-sm border-none"
                         >
-                            <div className="w-6 h-6 flex items-center justify-center group-hover:-rotate-12 transition-transform">
+                            <div className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center group-hover:-rotate-12 transition-transform">
                                 <svg className="w-full h-full text-[#0061FE]" fill="currentColor" viewBox="0 0 24 24"><path d="M6 2L1 6.5L6 11L11 6.5L6 2ZM18 2L13 6.5L18 11L23 6.5L18 2ZM1 17.5L6 22L11 17.5L6 13L1 17.5ZM18 13L13 17.5L18 22L23 17.5L18 13ZM11 11L6 6.5L11 2L13 2L18 6.5L13 11L18 15.5L13 20L11 20L6 15.5L11 11Z" /></svg>
                             </div>
-                            Dropbox
+                            <span className="hidden sm:inline">Dropbox</span>
+                            <span className="sm:hidden">Dropbox</span>
                         </button>
                     </div>
                 </div>

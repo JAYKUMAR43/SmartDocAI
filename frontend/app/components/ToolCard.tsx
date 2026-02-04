@@ -20,20 +20,20 @@ export default function ToolCard({ title, description, icon, href, color }: Tool
         >
             <Link
                 href={href}
-                className="group relative flex flex-col h-full p-8 rounded-[2rem] glass border-none shadow-sm transition-all hover:shadow-2xl hover:shadow-primary/10 overflow-hidden"
+                className="group relative flex flex-col h-full p-6 md:p-8 rounded-3xl md:rounded-[2rem] glass border-none shadow-sm transition-all hover:shadow-2xl hover:shadow-primary/10 overflow-hidden"
             >
                 {/* Background Accent */}
                 <div className={`absolute -right-10 -top-10 w-32 h-32 rounded-full opacity-10 transition-transform group-hover:scale-150 ${color}`} />
 
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-black/5 ${color} text-white`}>
+                <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-lg shadow-black/5 ${color} text-white`}>
                     {icon}
                 </div>
 
-                <h3 className="text-xl font-black text-foreground mb-3 group-hover:text-primary transition-colors">
+                <h3 className="text-lg md:text-xl font-black text-foreground mb-2 md:mb-3 group-hover:text-primary transition-colors">
                     {title}
                 </h3>
 
-                <p className="text-sm font-medium text-secondary leading-relaxed mb-6 flex-1">
+                <p className="text-xs md:text-sm font-medium text-secondary leading-relaxed mb-4 md:mb-6 flex-1">
                     {description}
                 </p>
 
