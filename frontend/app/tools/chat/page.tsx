@@ -42,7 +42,7 @@ export default function ChatPage() {
 
             {!fileId && (
                 <div className="flex-shrink-0">
-                    <FileUpload onUploadComplete={setFileId} />
+                    <FileUpload onUploadComplete={(data) => setFileId(data.file_id)} />
                 </div>
             )}
 
@@ -59,8 +59,8 @@ export default function ChatPage() {
                         {messages.map((msg, idx) => (
                             <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`max-w-[80%] rounded-2xl px-4 py-2 ${msg.role === 'user'
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-gray-200'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-gray-200'
                                     }`}>
                                     <p className="whitespace-pre-wrap">{msg.content}</p>
                                 </div>
