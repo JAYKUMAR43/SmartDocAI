@@ -1,5 +1,3 @@
-import Navbar from "../components/Navbar";
-
 export default function MarketingLayout({
     children,
 }: {
@@ -7,7 +5,6 @@ export default function MarketingLayout({
 }) {
     return (
         <div className="relative min-h-screen">
-            <Navbar />
             {children}
         </div>
     );
