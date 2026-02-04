@@ -34,7 +34,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} antialiased font-sans`}
       >
         <div className="relative min-h-screen">
-          <Navbar />
           {children}
           {/* We could add a global footer here later */}
         </div>
