@@ -11,6 +11,11 @@ export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+    // Hide Navbar on Dashboard and Tool pages to prevent overlap
+    if (pathname?.startsWith("/dashboard") || pathname?.startsWith("/tools")) {
+        return null;
+    }
+
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 20);
         window.addEventListener("scroll", handleScroll);
@@ -51,8 +56,8 @@ export default function Navbar() {
                                 key={link.href}
                                 href={link.href}
                                 className={`relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${isActive
-                                        ? "text-primary"
-                                        : "text-secondary hover:text-foreground"
+                                    ? "text-primary"
+                                    : "text-secondary hover:text-foreground"
                                     }`}
                             >
                                 {isActive && (
