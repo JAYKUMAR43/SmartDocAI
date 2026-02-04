@@ -14,7 +14,8 @@ import {
   MessageSquare,
   FileSearch,
   Layers,
-  Scissors
+  Scissors,
+  Rocket
 } from "lucide-react";
 
 export default function Home() {
