@@ -49,10 +49,10 @@ async def upload_file(background_tasks: BackgroundTasks, file: UploadFile = File
         "type": file.content_type
     }
 
-@router.post("/summarize/{file_id}")
-async def summarize_document(file_id: str):
+@router.post("/summarize/{doc_id}")
+async def summarize_document(doc_id: str):
     """Summarizes the uploaded document using AI."""
-    session_dir = os.path.join(UPLOAD_DIR, file_id)
+    session_dir = os.path.join(UPLOAD_DIR, doc_id)
     if not os.path.exists(session_dir):
         raise HTTPException(status_code=404, detail="Session not found")
         
